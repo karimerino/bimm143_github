@@ -1,0 +1,361 @@
+---
+title: "Class 11: Structural Bioinformatics pt.2"
+author: "Carolina Merino (PID 14484883)"
+format: pdf
+editor: visual
+---
+
+##AlphaFold DB
+
+The EBI mantains the largest database of AlphaFold structure prediction models at : https://alphafold.ebi.ac.uk/
+
+From the last class (before Halloween) we saw that the PDB had 244,290 (Oct 2025)
+
+The total number of proteins sequences in UnitProtKB is 199,579,901
+
+> Key Point: This is a tiny fraction of sequence space that has structural coverage (0.12%)
+
+```{r}
+244290/199579901 * 100
+```
+
+AFDB is attempting to address this gap..
+
+There are two "Quality Scores" from AlphaFold one for residues (i.e. each amino acid) called **pLDDT score**. The other **PAE** score that measures the confidence in the relative position of two residues (i.e. a score for every pair of residues).
+
+##Generating your own structure predictions
+
+The notebook generates the following output files:
+- `ranked_*.pdb` Predicted 3D structures
+- `*.json`  pLDDT and PAE data
+- `*.a3m`  Multiple Sequence Alignment used by AlphaFold
+- `*.csv` Summary metrics
+
+Superposed:
+
+```{r}
+knitr::include_graphics("Superimposed.png")
+
+```
+>Superposed Monomer models
+
+
+
+Now a model with Uncertainty Displayed
+
+```{r}
+knitr::include_graphics("Red.png")
+
+```
+>HIV-Pr monomers (red for high confidence)
+
+and model 5
+
+
+##Custom analysis of resulting models in R
+
+Read key result files into R. The first thing I need to know is what my results directory/folder is called (i.e. its name is different for every AlphaFold run/job.)
+
+```{r}
+results.dir <- "HIVPR_dimer_23119"
+# File names for all PDB models
+pdb_files <- list.files(path = results.dir,
+                        pattern = "*.pdb",
+                        full.names = TRUE)
+
+# Print out PDB file names
+basename(pdb_files)
+
+```
+```{r}
+library(bio3d)
+
+# Read all data from Models 
+#  and superpose/fit coords
+pdbs <- pdbaln(pdb_files, fit=TRUE, exefile="msa")
+```
+
+
+```{r}
+#Read one model to plot its per-residue confidence
+
+m1 <- read.pdb(pdb_files[1])
+
+#Plot B-factors (which store pLDDT scores)
+
+plot(m1$atom$b[m1$calpha],
+type = "l",
+xlab = "Residue Number",
+ylab = "pLDDT Score",
+main = "Residue Confidence per Model")
+```
+
+How similar predictive models are..
+```{r}
+# --- Step 5: Calculate RMSD between all models ---
+# RMSD = Root Mean Square Deviation; shows how similar the 3D structures are
+rd <- rmsd(pdbs, fit = TRUE)
+
+# Range of RMSD values
+range(rd)
+
+```
+Let's plot the heatmap of the RMSD values:
+
+```{r}
+# --- Step 6: Draw heatmap of RMSD values ---
+#install package first on console
+#install.packages("pheatmap")
+
+
+library(pheatmap)
+
+# Label rows and columns by model number
+colnames(rd) <- paste0("m", 1:5)
+rownames(rd) <- paste0("m", 1:5)
+
+# Plot the heatmap
+pheatmap(rd)
+
+```
+
+
+```{r}
+colnames(rd) <- paste0("m",1:5)
+rownames(rd) <- paste0("m",1:5)
+pheatmap(rd)
+
+```
+ We can see that the RMSD heatmap shows that models 1 and 2 are most similar, models 4 and 5 are also close, and model 3 is intermediate between the two groups.
+
+Now lets plot the pLDDT values across all models
+
+```{r}
+# Read a reference PDB structure
+pdb <- read.pdb("1hsg")
+```
+```{r}
+plotb3(pdbs$b[1,], typ="l", lwd=2, sse=pdb)
+points(pdbs$b[2,], typ="l", col="red")
+points(pdbs$b[3,], typ="l", col="blue")
+points(pdbs$b[4,], typ="l", col="darkgreen")
+points(pdbs$b[5,], typ="l", col="orange")
+abline(v=100, col="gray")
+```
+
+```{r}
+core <- core.find(pdbs)
+
+```
+
+```{r}
+core.inds <- print(core, vol=0.5)
+```
+```{r}
+xyz <- pdbfit(pdbs, core.inds, outpath="corefit_structures")
+```
+
+Now we can examine the RMSF between positions of the structure. RMSF is an often used measure of conformational variance along the structure:
+
+```{r}
+rf <- rmsf(xyz)
+
+plotb3(rf, sse=pdb)
+abline(v=100, col="gray", ylab="RMSF")
+```
+The first chain appears largely consistent across all models, while the second chain shows much greater variability, as we observed earlier in Mol*.
+
+
+##Predicted Alignment Error for domains
+
+The Predicted Alignment Error (PAE) shows how confident AlphaFold is about the relative positions of residues or domains. Low PAE means high confidence, high PAE means uncertainty. It highlights which regions are well-defined versus flexible.
+
+
+```{r}
+library(jsonlite)
+
+# Listing of all PAE JSON files
+# Step 1: Define your results folder
+results_dir <- "C:/Users/Linda Kubera/Desktop/Bimm 143 Class/Class 11/HIVPR_dimer_23119"
+
+# Step 2: Load jsonlite
+library(jsonlite)
+
+# Step 3: List all PAE JSON files
+pae_files <- list.files(path = results_dir,
+                        pattern = ".*model.*\\.json",
+                        full.names = TRUE)
+
+# Step 4: Check the files
+pae_files
+
+```
+PAE JSON FILE
+
+```{r}
+# Read the first PAE JSON file
+pae_data <- fromJSON(pae_files[1])
+
+# Check what’s inside
+names(pae_data)
+
+```
+
+```{r}
+library(jsonlite)
+library(pheatmap)
+
+# Read the first PAE JSON file
+pae_data <- fromJSON(pae_files[1])
+
+# Extract the PAE matrix
+pae_matrix <- pae_data$pae
+
+# Optional: limit the max value for better visualization
+pae_matrix[pae_matrix > 30] <- 30
+
+# Plot the heatmap
+pheatmap(pae_matrix,
+         cluster_rows = FALSE,
+         cluster_cols = FALSE,
+         color = colorRampPalette(c("blue", "white", "red"))(50),
+         main = "Predicted Alignment Error (PAE) Heatmap")
+
+```
+The PAE heatmap shows the predicted alignment error between all residue pairs in the model. Blue regions indicate high confidence (low error), while red regions indicate low confidence (high error). This helps identify which parts of the protein structure are more reliably predicted.
+
+##Residue conservation from alignment file
+
+
+```{r}
+# Path to your MSA file (adjust name as needed)
+msa_file <- list.files(path = results.dir, pattern = "*.a3m", full.names = TRUE)[1]
+
+# Read the MSA
+library(bio3d)
+msa <- read.fasta(msa_file)
+
+# Check the first few sequences
+head(msa$ali)
+
+```
+
+Calculate residue conservation
+
+```{r}
+cons <- conserv(msa$ali)
+
+# Plot conservation
+plot(cons, type = "h", lwd=2, col="blue",
+     xlab="Residue Number", ylab="Conservation Score",
+     main="Residue Conservation from MSA")
+
+```
+
+>Highly conserved residues (tall peaks) likely indicate structurally or functionally important positions, such as active sites or dimer interfaces. Variable residues (short peaks) may correspond to flexible loops or regions not critical for function.
+
+
+
+```{r}
+# Read one reference PDB
+ref_pdb <- read.pdb(pdb_files[1])
+
+# Extract C-alpha indices
+ca_inds <- atom.select(ref_pdb, "calpha")
+
+# Assign conservation scores to B-factor of Cα atoms
+ref_pdb$atom$b[ca_inds$atom] <- cons
+
+# Plot the conservation on structure
+plotb3(ref_pdb$atom$b, sse=ref_pdb,
+       main="Residue Conservation Mapped on Structure",
+       col=colorRampPalette(c("blue","white","red"))(100))
+
+
+```
+Residue conservation was calculated from the multiple sequence alignment and mapped onto the 3D structure. Higher conservation scores (red) indicate residues that are more evolutionarily conserved, while lower scores (blue) indicate variable positions. This helps identify functionally important or structurally critical regions in the protein
+
+
+
+```{r}
+library(bio3d)
+
+# Get full path to the .a3m file
+aln_file <- list.files(path = results_dir, pattern = "\\.a3m$", full.names = TRUE)
+
+# Read the alignment
+aln <- read.fasta(aln_file[1], to.upper = TRUE)
+
+# Quick checks
+head(aln$ali)   # shows first few sequences
+dim(aln$ali)    # shows # sequences x # positions
+
+
+```
+```{r}
+# Calculate residue conservation
+cons <- conserv(aln$ali)
+
+# Quick plot of conservation
+plot(cons, type = "h", lwd=2, col="blue",
+     xlab="Residue Number", ylab="Conservation Score",
+     main="Residue Conservation from MSA")
+
+```
+
+
+Consensus sequence calculation with cutoff 0.9
+```{r}
+# Calculate consensus sequence with 90% cutoff
+con <- consensus(aln, cutoff = 0.9)
+
+# View the consensus sequence
+con$seq
+
+```
+```{r}
+library(bio3d)
+
+# Read your alignment file if you haven't already
+aln_file <- list.files(path = results_dir, pattern = "\\.a3m$", full.names = TRUE)
+aln <- read.fasta(aln_file[1], to.upper = TRUE)
+
+# Generate consensus sequence
+con <- consensus(aln, cutoff = 0.9)
+con$seq  # shows positions that are highly conserved
+
+```
+
+Map conservation into PBD structure
+
+
+```{r}
+# Convert consensus sequence to numeric: 1 = conserved, 0 = not conserved
+cons_numeric <- ifelse(con$seq == "-", 0, 1)
+
+# Assign to chain A
+ca_inds <- atom.select(ref_pdb, "calpha", chain="A")
+ref_pdb$atom$b[ca_inds$atom] <- cons_numeric[1:length(ca_inds$atom)]
+
+# Repeat for chain B if needed
+ca_inds_B <- atom.select(ref_pdb, "calpha", chain="B")
+ref_pdb$atom$b[ca_inds_B$atom] <- cons_numeric[1:length(ca_inds_B$atom)]
+
+# Write PDB
+write.pdb(ref_pdb, file="m1_conserv_numeric.pdb")
+
+```
+
+```{r}
+knitr::include_graphics("M1.png")
+
+```
+
+Figure 20: Top-ranked dimer model colored by sequence conservation, highlighting the DTGA motif.
+
+##Limitations:
+While AlphaFold provides highly informative predictions, some regions of the dimer, particularly the second chain, remain less reliable due to lower confidence scores and higher predicted alignment errors. These areas should be interpreted cautiously, and experimental validation would be required for definitive structural conclusions.
+
+## Summary
+
+Our analysis of the HIV-1 protease dimer models from AlphaFold2 shows that models 1 and 2 are highly similar, while models 3–5 display more variability, consistent with their higher RMSD and PAE scores. The pLDDT plots indicate that most of the first chain is confidently predicted, whereas the second chain shows more flexible regions. RMSF analysis further highlights that these flexible regions correspond to areas of structural variability. Residue conservation mapping reveals the central DTGA active site motif as highly conserved, emphasizing its functional importance for substrate binding and inhibitor interactions.
