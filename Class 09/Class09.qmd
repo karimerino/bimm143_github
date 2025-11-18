@@ -1,0 +1,443 @@
+---
+title: "Class 09 Structural Bioinformatics (pt. 1)"
+author: "Carolina Merino (PID 14484883"
+format: html
+editor: visual
+---
+
+The main database for structural biology is called PDB. Let's have a look at what it contains:
+
+Download a CSV file from the PDB site (accessible from “Analyze” > “PDB Statistics” > “by Experimental Method and Molecular Type”
+
+>Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+
+This means **81.5%** of structures are solved by X-ray and **12.2%** by Electron Microscopy.
+
+Now, we calculate percent to one significant figure
+```{r pbstats, message=FALSE}
+library(readr)
+
+# Read CSV
+pdb_data <- read_csv("Data Export Summary.csv")
+head(pdb_data)
+
+# Step 1: Clean numeric columns (remove commas if they exist)
+pdb_data$`X-ray` <- as.numeric(gsub(",", "", pdb_data$`X-ray`))
+pdb_data$EM <- as.numeric(gsub(",", "", pdb_data$EM))
+pdb_data$Total <- as.numeric(gsub(",", "", pdb_data$Total))
+
+# Step 2: Calculate total of all structures
+total_all <- sum(pdb_data$Total, na.rm = TRUE)
+
+# Step 3: Calculate percentage for X-ray and EM
+xray_total <- sum(pdb_data$`X-ray`, na.rm = TRUE)
+xray_percent <- (xray_total / total_all) * 100
+
+em_total <- sum(pdb_data$EM, na.rm = TRUE)
+em_percent <- (em_total / total_all) * 100
+
+# Step 4: Show results
+xray_percent
+em_percent
+
+```
+>Q2: What proportion of structures in the PDB are protein?
+
+About **86%** of the structures in the PDB are proteins.
+
+
+```{r}
+# Protein percentage round((stats$Total[1] / total_all) * 100)
+
+
+protein_percent <- 86
+protein_percent
+
+```
+
+
+
+>Q3: Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+
+According to the website, there are 1,091 HIV-1 protease structures in the PDB.
+
+
+
+##Exploring PDB Structures
+
+Package for structural bioinformatics
+```{r}
+library(bio3d)
+
+hiv <- read.pdb("1hsg")
+hiv
+```
+
+Let's first use the Mol* viewer to explore this structure.
+
+```{r}
+knitr::include_graphics("1HSG.PNG")
+
+```
+
+
+
+Next will be an image showcasing the ligand
+
+```{r}
+knitr::include_graphics("1HSGL.PNG")
+
+```
+
+> Q4: Water molecules normally have 3 atoms. Why do we see just one atom per water molecule in this structure?
+
+In X-ray structures for Mol*, we usually only see the oxygen atom of each water molecule. The hydrogen atoms are too small to be detected, so the file just shows one atom per water instead of three.
+
+
+> Q5: There is a critical “conserved” water molecule in the binding site. Can you identify this water molecule? What residue number does this water molecule have
+
+The conserved water molecule in the HIV-1 protease binding site is HOH 307, located in chain D, which interacts with the active site residues.
+
+
+```{r}
+knitr::include_graphics("1HSGQ5.PNG")
+
+```
+
+
+>Q6: Generate and save a figure clearly showing the two distinct chains of HIV-protease along with the ligand. You might also consider showing the catalytic residues ASP 25 in each chain and the critical water (we recommend “Ball & Stick” for these side-chains). Add this figure to your Quarto document.
+
+Figure 1HSG6: HIV-1 protease structure showing the two chains, the ligand in the active site, catalytic residues ASP25 in each chain, and the critical conserved water molecule.
+```{r}
+knitr::include_graphics("1HSG6.PNG")
+
+```
+
+>Q7: [Optional] As you have hopefully observed HIV protease is a homodimer (i.e. it is composed of two identical chains). With the aid of the graphic display can you identify secondary structure elements that are likely to only form in the dimer rather than the monomer?
+
+HIV protease is made of two identical chains. Some parts, like the flaps over the active site and a few strands at the interface, only form when the two chains come together. They wouldn’t be stable in just one chain.
+
+>Q7: How many amino acid residues are there in this pdb object?
+
+Using `length(unique(hiv$atom$resno))` there's **198 residues.** 
+
+```{r}
+# Using atom info (unique residue numbers)
+length(unique(hiv$atom$resno))
+
+```
+
+```{r}
+length(pdbseq(hiv))
+
+```
+
+>Q8: Name one of the two non-protein residues?
+
+One of the non-protein residues is HOH (water molecule).
+
+```{r}
+unique(hiv$atom$resid[hiv$atom$type=="HETATM"])
+
+```
+
+
+>Q9: How many protein chains are in this structure? 
+
+ 
+ There are 2 protein chains in this structure.
+
+
+```{r}
+# Number of protein chains in the PDB
+length(unique(hiv$atom$chain))
+
+```
+
+## PDB Object in R
+
+```{r}
+library(bio3d)
+
+# Read the HIV protease PDB
+hiv <- read.pdb("C:/Users/Linda Kubera/Desktop/Bimm 143 Class/Class 09/1HSG.pdb")
+
+# See the first few atoms
+head(hiv$atom)
+
+# Extract the full sequence
+pdbseq(hiv)
+
+# Get sequence for chain A only
+trim.pdb(hiv, chain="A")
+
+```
+
+Looking at chains and ligands
+```{r}
+# Look at summary of chains
+table(hiv$atom$chain)
+
+# Look at ligands
+unique(hiv$atom$resid[hiv$atom$type=="HETATM"])
+
+```
+
+```{r}
+chainA <- trim.pdb(hiv, chain="A")
+
+```
+
+
+## Quick PDB visualization in R
+
+
+```{r}
+library(bio3dview)
+library(NGLVieweR)
+
+```
+
+
+```{r}
+view.pdb(hiv) |> setSpin()
+
+```
+
+
+Custom coloring the chains and highlighting some residues
+
+```{r}
+library(bio3d)
+
+# Make sure your pdb object is loaded
+pdb <- read.pdb("C:/Users/Linda Kubera/Desktop/Bimm 143 Class/Class 09/1HSG.pdb")
+
+# Select ASP 25
+sele <- atom.select(pdb, resno=25)
+
+# Highlight in viewer
+library(bio3dview)
+library(NGLVieweR)
+
+view.pdb(pdb, cols=c("navy","teal"), 
+         highlight = sele,
+         highlight.style = "spacefill") |>
+  setRock()
+
+```
+
+
+
+##Predict protein flexibility
+
+We can run a bioinformatics calculation to predict protein dynamics - i.e. functional motions.
+
+We will use the `nma()` function:
+
+```{r}
+# Load bio3d
+library(bio3d)
+
+# Read PDB
+adk <- read.pdb("6S36")
+
+# Optional: trim non-protein atoms (waters, ligands) for NMA
+adk_pro <- trim.pdb(adk, "protein")  # keeps only protein atoms
+
+# Perform Normal Mode Analysis
+m <- nma(adk_pro)
+
+# Plot the results (deformation along modes)
+plot(m)
+
+# Generate a "trajectory" of predicted motions
+mktrj(m, file = "ADK_nma.pdb")
+
+```
+
+
+
+```{r}
+mktrj(m, file="adk_m7.pdb")
+```
+
+Now for the "movie" of the these predicted motions
+```{r}
+library(bio3d)
+library(NGLVieweR)
+
+# Read the PDB
+adk <- read.pdb("6S36")
+
+# Optional: trim to protein only
+adk_pro <- trim.pdb(adk, "protein")
+
+# View interactively
+view.pdb(adk_pro) |> setSpin()
+
+
+```
+
+Predicted motion of Adenylate Kinase from Normal Mode Analysis (NMA), showing flexible regions of the protein
+
+```{r}
+knitr::include_graphics("ADK_NMA.PDB.PNG")
+
+```
+
+
+
+
+alternate bio3dview package
+
+```{r}
+library(bio3dview)
+view.nma(m, pdb=adk)
+
+```
+
+
+## 4. Comparative structure analysis of Adenylate Kinase
+
+We can see the source species for each PDB, which can be useful for clustering or grouping in PCA.
+```{r}
+hits <- NULL
+hits$pdb.id <- c('1AKE_A','6S36_A','6RZE_A','3HPR_A','1E4V_A','5EJE_A',
+                 '1E4Y_A','3X2S_A','6HAP_A','6HAM_A','4K46_A','3GMT_A','4PZL_A')
+
+
+```
+
+>Q10. Which of the packages above is found only on BioConductor and not CRAN?
+
+it is a BioConductor package, not on CRAN.
+
+>Q11. Which of the above packages is not found on BioConductor or CRAN?:
+
+It’s on GitHub (installed  `pak::pak("bioboot/bio3dview"))`, not CRAN or BioConductor.
+
+>Q12. True or False? Functions from the pak package can be used to install packages from GitHub and BitBucket? 
+
+True
+
+##Search and retrieve ADK structures
+
+We perform a BLAST search of the PDB to find structures related to Adenylate Kinase (ADK). Here, `get.seq()` fetches the chain A sequence of PDB ID 1AKE, which is used as input for `blast.pdb()`
+
+```{r}
+library(bio3d)
+aa <- get.seq("1ake_A")
+```
+```{r}
+aa
+```
+
+>Q13. How many amino acids are in this sequence, i.e. how long is this sequence? 
+
+The sequence has **214 amino acids**
+
+
+```{r}
+b <- blast.pdb(aa)  # aa is your ADK sequence from earlier
+```
+
+Visualize the Blast
+
+```{r}
+# Visualize the BLAST hits
+plot.blast(b)
+
+```
+
+Filter the hits
+
+```{r}
+# Check the top hits
+#head(b)       # shows first few hits
+#length(b)     # shows total number of hits
+
+
+```
+
+```{r}
+hits <- NULL
+hits$pdb.id <- c('1AKE_A','6S36_A','6RZE_A','3HPR_A','1E4V_A','5EJE_A','1E4Y_A','3X2S_A','6HAP_A','6HAM_A','4K46_A','3GMT_A','4PZL_A')
+
+```
+
+
+```{r}
+files <- get.pdb(hits$pdb.id, path="pdbs", split=TRUE, gzip=TRUE)
+
+```
+
+
+`
+```{r}
+pdbs <- pdbaln(files, fit = TRUE, exefile="msa")  # aligns structures
+#ids <- basename.pdb(pdbs$id)                       # get PDB IDs
+#plot(pdbs, labels=ids)                             # schematic alignment
+
+```
+
+Annotate structures
+
+```{r}
+anno <- pdb.annotate(ids)
+unique(anno$source)   # see which organisms they came from
+
+```
+
+PCA structural variations
+
+The `pca()` function performs principal component analysis (PCA) on structural data. PCA is a statistical method that reduces a large dataset to a few key components that capture the main directions of variation. For protein structures, PCA highlights the major structural differences across a group of related structures. You can run PCA on a set of structures stored in the pdbs object using either `pca.xyz()` or the simpler `pca()` function.
+
+```{r}
+pc.xray <- pca(pdbs)
+plot(pc.xray)
+
+```
+> Each dot = one PDB structure. Shows conformational differences.
+
+Calculate RMSD
+```{r}
+# Calculate RMSD
+rd <- rmsd(pdbs)
+
+# Structure-based clustering
+hc.rd <- hclust(dist(rd))
+grps.rd <- cutree(hc.rd, k=3)
+
+plot(pc.xray, 1:2, col="grey50", bg=grps.rd, pch=21, cex=1)
+```
+
+
+
+For clustering
+
+```{r}
+rd <- rmsd(pdbs)                   # pairwise RMSD matrix
+hc.rd <- hclust(dist(rd))          # hierarchical clustering
+grps.rd <- cutree(hc.rd, k=3)      # divide into 3 groups
+
+# plot PCA colored by clusters
+library(ggplot2)
+library(ggrepel)
+df <- data.frame(PC1=pc.xray$z[,1], 
+                 PC2=pc.xray$z[,2], 
+                 col=as.factor(grps.rd),
+                 ids=ids)
+ggplot(df) + 
+  aes(PC1, PC2, col=col, label=ids) +
+  geom_point(size=2) +
+  geom_text_repel(max.overlaps = 20) +
+  theme(legend.position = "none")
+
+```
+
+
+
+
+
+

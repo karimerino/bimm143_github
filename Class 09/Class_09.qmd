@@ -1,0 +1,357 @@
+---
+title: "Class 09 Structural Bioinformatics part 1"
+author: "Carolina Merino ( PID 14484883 )"
+format: pdf
+editor: visual
+---
+## 1: Introduction to the RCSB Protein Data Bank (PDB)
+
+The main database for structural biology is called PDB. Let's have a look at what it contains:
+
+
+Download a CSV file from the PDB site
+
+
+>Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+
+Around **81.5% ** of structures are solved by X-ray and **12.2%** are solved by Electron Microscopy.
+
+```{r pbstats, message=FALSE}
+library(readr)
+
+
+# Read CSV
+pdb_data <- read_csv("Data Export Summary.csv")
+head(pdb_data)
+
+
+# Step 1: Clean numeric columns (remove commas if they exist)
+pdb_data$`X-ray` <- as.numeric(gsub(",", "", pdb_data$`X-ray`))
+pdb_data$EM <- as.numeric(gsub(",", "", pdb_data$EM))
+pdb_data$Total <- as.numeric(gsub(",", "", pdb_data$Total))
+
+
+# Step 2: Calculate total of all structures
+total_all <- sum(pdb_data$Total, na.rm = TRUE)
+
+
+# Step 3: Calculate percentage for X-ray and EM
+xray_total <- sum(pdb_data$`X-ray`, na.rm = TRUE)
+xray_percent <- (xray_total / total_all) * 100
+
+
+em_total <- sum(pdb_data$EM, na.rm = TRUE)
+em_percent <- (em_total / total_all) * 100
+
+
+# Step 4: Show results
+xray_percent
+em_percent
+```
+
+>Q2: What proportion of structures in the PDB are protein?
+
+
+Around **86%** of the structures in the PDB are proteins.
+
+
+
+```{r}
+# Protein percentage round((stats$Total[1] / total_all) * 100)
+
+
+
+
+protein_percent <- 86
+protein_percent
+
+
+```
+
+>Q3: Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+
+
+According to the data 1,091 HIV-1 protease structures in the PDB.
+
+
+## 2. Visualizing the HIV-1 protease structure
+
+
+> Q4: Water molecules normally have 3 atoms. Why do we see just one atom per water molecule in this structure?
+
+
+With the structure we only see one atom per water molecule in this structure because hydrogen atoms are too small to be detected by x-ray crystallography, so only the one oxygen atom is visible.
+
+
+> Q5: There is a critical “conserved” water molecule in the binding site. Can you identify this water molecule? What residue number does this water molecule have?
+
+We can see that the conserved water molecule in the binding site is HOH 307, located in chain D, which interacts with the active site residues.
+
+
+
+
+>Q6: Generate and save a figure clearly showing the two distinct chains of HIV-protease along with the ligand. You might also consider showing the catalytic residues ASP 25 in each chain and the critical water (we recommend “Ball & Stick” for these side-chains). Add this figure to your Quarto document.
+
+
+Follow the figure below.
+
+
+```{r}
+knitr::include_graphics("1HSG.PNG")
+
+```
+Deeper Look..
+```{r}
+knitr::include_graphics("1HSG6.PNG")
+
+```
+Closer View..
+
+```{r}
+knitr::include_graphics("1HSGQ5.PNG")
+
+```
+
+## 3. Introduction to Bio3D in R
+
+
+```{r}
+library(bio3d)
+pdb <- read.pdb("1hsg")
+pdb
+```
+
+
+>Q7: How many amino acid residues are there in this pdb object?
+
+We can see that there are **198** AA residues in this pdb project.
+
+
+```{r}
+hiv <- read.pdb("1hsg")
+hiv
+length(unique(hiv$atom$resno))
+length(pdbseq(hiv))
+```
+
+>Q8: Name one of the two non-protein residues?
+
+One of the two non-protein residues is named as: "MK1"
+
+
+```{r}
+unique(hiv$atom$resid[hiv$atom$type=="HETATM"])
+
+
+```
+
+
+>Q9: How many protein chains are in this structure? 
+
+There are **2 protein chains** in this structure.
+
+
+```{r}
+# Number of protein chains in the PDB
+length(unique(hiv$atom$chain))
+
+
+```
+
+
+## 4. Comparative structure analysis of Adenylate Kinase
+
+
+We can see the source species for each PDB, which can be very useful for clustering or grouping in PCA.
+
+
+```{r}
+hits <- NULL
+hits$pdb.id <- c('1AKE_A','6S36_A','6RZE_A','3HPR_A','1E4V_A','5EJE_A',
+                 '1E4Y_A','3X2S_A','6HAP_A','6HAM_A','4K46_A','3GMT_A','4PZL_A')
+
+
+
+
+```
+
+
+>Q10. Which of the packages above is found only on BioConductor and not CRAN?
+
+
+We see that "msa: is found on BioConductor, not CRAN.
+
+
+>Q11. Which of the above packages is not found on BioConductor or CRAN?:
+
+
+"bio3dview" cannot be found on either CRAN or BioConductor.
+
+
+>Q12. True or False? Functions from the pak package can be used to install packages from GitHub and BitBucket? 
+
+ True
+
+
+##Search and retrieve ADK structures
+
+
+We perform a BLAST search of the PDB to find structures related to Adenylate Kinase (ADK). Here, `get.seq()` fetches the chain A sequence of PDB ID 1AKE, which is used as input for `blast.pdb()`
+
+
+```{r}
+library(bio3d)
+aa <- get.seq("1ake_A")
+```
+```{r}
+aa
+```
+
+
+>Q13. How many amino acids are in this sequence, i.e. how long is this sequence? 
+
+In this sequence, there are **214 amino acids**.
+
+
+
+```{r}
+# b <- blast.pdb(aa)  # aa is your ADK sequence from earlier
+```
+
+
+Now we can visualize the Blast
+
+
+```{r}
+# Visualize the BLAST hits
+#plot.blast(b)
+
+
+```
+
+
+Filter the hits, this makes sure we filter out the hits
+
+
+```{r}
+# Check the top hits
+# head(b)       # shows first few hits
+# length(b)     # shows total number of hits
+
+
+
+
+```
+
+
+```{r}
+hits <- NULL
+hits$pdb.id <- c('1AKE_A','6S36_A','6RZE_A','3HPR_A','1E4V_A','5EJE_A','1E4Y_A','3X2S_A','6HAP_A','6HAM_A','4K46_A','3GMT_A','4PZL_A')
+
+
+```
+
+
+
+
+```{r}
+files <- get.pdb(hits$pdb.id, path="pdbs", split=TRUE, gzip=TRUE)
+
+
+```
+
+
+
+
+
+
+```{r}
+pdbs <- pdbaln(files, fit = TRUE, exefile="msa")  # aligns structures
+# ids <- basename.pdb(pdbs$id)                       # get PDB IDs
+# png("pdb_alignment.png", width=1200, height=900)  # adjust resolution/size if needed
+# par(mar=c(4,4,2,2))                               # reduce margins to avoid plotting errors
+# plot(pdbs, labels=ids)
+# dev.off()                         # 
+```
+
+
+Now we annotate structures
+
+
+```{r}
+# anno <- pdb.annotate(ids)
+# unique(anno$source)   # see which organisms they came from
+
+
+```
+
+
+PCA structural variations
+
+
+The `pca()` function performs principal component analysis (PCA) on structural data. PCA is a statistical method that reduces a large dataset to a few key components that capture the main directions of variation. For protein structures, PCA highlights the major structural differences across a group of related structures. You can run PCA on a set of structures stored in the pdbs object using either `pca.xyz()` or the simpler `pca()` function.
+
+
+```{r}
+# pc.xray <- pca(pdbs)
+# plot(pc.xray)
+
+
+```
+> *Each dot = one PDB structure. Shows conformational differences.*
+
+
+Let's calculate RMSD
+```{r}
+# Calculate RMSD
+rd <- rmsd(pdbs)
+
+
+# Structure-based clustering
+hc.rd <- hclust(dist(rd))
+grps.rd <- cutree(hc.rd, k=3)
+
+
+#plot(pc.xray, 1:2, col="grey50", bg=grps.rd, pch=21, cex=1)
+```
+
+
+Now for clustering...
+
+
+```{r}
+# rd <- rmsd(pdbs)                   # pairwise RMSD matrix
+# hc.rd <- hclust(dist(rd))          # hierarchical clustering
+# grps.rd <- cutree(hc.rd, k=3)      # divide into 3 groups
+
+
+# plot PCA colored by clusters
+# library(ggplot2)
+# library(ggrepel)
+# df <- data.frame(PC1=pc.xray$z[,1], 
+               #  PC2=pc.xray$z[,2], 
+              #   col=as.factor(grps.rd),
+                # ids=ids)
+#ggplot(df) + 
+ # aes(PC1, PC2, col=col, label=ids) +
+ # geom_point(size=2) +
+ # geom_text_repel(max.overlaps = 20) +
+ # theme(legend.position = "none")
+
+
+```
+
+
+## 6. Normal mode analysis *optional section*
+
+
+```{r}
+# NMA of all structures
+modes <- nma(pdbs)
+plot(modes, pdbs, col=grps.rd)
+```
+
+
+> Q14. What do you note about this plot? Are the black and colored lines similar or different? Where do you think they differ most and why?
+
+Fluctuations of the reference protein are shown by the black line, while the colored lines represent other aligned structures. The overall patterns are similar, but differences appear in the peak regions, especially around residues *35–55 and 130–150*, likely reflecting flexible regions like loops or terminal ends that vary between structures.
