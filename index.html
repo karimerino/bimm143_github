@@ -5,81 +5,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carolina's Bioinformatics Portfolio</title>
 <style>
+    /* Dark theme background */
     body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 40px;
-        background-color: #f9f9f9;
-        color: #0b3d91; /* blue main text */
+        background-color: #121212;
+        color: #e0e0e0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    /* Centered container with border */
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 30px;
+        border: 2px solid #1e88e5; /* nice blue border */
+        border-radius: 10px;
+        background-color: #1c1c1c;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
     h1 {
-        font-size: 2.5em;
-        color: #0b3d91;
-        margin-bottom: 0.3em;
+        color: #1e88e5; /* blue */
+        text-align: center;
+        margin-bottom: 10px;
     }
     h2 {
-        font-size: 1.8em;
-        color: #6aa84f; /* soft green for class titles */
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
+        color: #66bb6a; /* soft green */
+        margin-top: 25px;
+        margin-bottom: 10px;
     }
     p {
-        font-size: 1.05em;
-        max-width: 800px;
+        line-height: 1.6;
     }
-    .highlight {
-        color: #333;
-        font-style: italic;
+    a {
+        color: #64b5f6;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    ul {
+        padding-left: 20px;
+    }
+    li {
+        margin-bottom: 15px;
     }
 </style>
 </head>
 <body>
+<div class="container">
+    <h1>Carolina's Bioinformatics Portfolio</h1>
+    <p>Welcome! This portfolio showcases my work from the Bioinformatics (BIMM 143) course at UC San Diego. Each project highlights key computational methods, biological insights, and data visualization skills I developed.</p>
 
-<h1>Carolina's Bioinformatics Portfolio</h1>
+    <h2>Class Projects</h2>
+    <ul>
+        <li><strong>Class 01: Introduction</strong><br>
+        Introduction to R and basic bioinformatics workflows.</li>
 
-<p>Welcome to my portfolio showcasing all my completed assignments and projects from the Bioinformatics (BIMM 143) course at UC San Diego. Highlights include RNA-Seq analysis, machine learning, PCA, and AlphaFold protein structure predictions.</p>
+        <li><strong>Class 02: Data Manipulation and Plotting</strong><br>
+        Explored data manipulation and created basic plots in R to visualize biological datasets. <a href="class2/lab02_Merino.pdf" target="_blank">View PDF</a></li>
 
-<h2>Class 01: Introduction</h2>
-<p class="highlight">Introduced to R and basic bioinformatics workflows, laying the groundwork for all future analyses.</p>
+        <li><strong>Class 03: Advanced Database Searching</strong><br>
+        Used NCBI databases and advanced search techniques to retrieve sequence data.</li>
 
-<h2>Class 02: [Title TBD]</h2>
-<p class="highlight">Explored data manipulation and basic plotting in R, building confidence with coding and visualizations.</p>
+        <li><strong>Class 04: Data Visualization</strong><br>
+        Created plots, boxplots, and exploratory visualizations using ggplot2 in R.</li>
 
-<h2>Class 03: Advanced Database Searching</h2>
-<p class="highlight">Learned to use NCBI databases and advanced search techniques to retrieve and analyze sequence data.</p>
+        <li><strong>Class 05: Data Analysis</strong><br>
+        Performed statistical analyses including t-tests and ANOVA on biological datasets.</li>
 
-<h2>Class 04: Data Visualization</h2>
-<p class="highlight">Created plots, boxplots, and exploratory visualizations with ggplot2 to summarize and interpret datasets.</p>
+        <li><strong>Class 06: Clustering & PCA</strong><br>
+        Applied clustering methods and PCA for dimensionality reduction to reveal patterns in complex datasets.</li>
 
-<h2>Class 05: Data Analysis</h2>
-<p class="highlight">Performed statistical analyses including t-tests and ANOVA to extract meaningful biological insights.</p>
+        <li><strong>Class 07: Machine Learning 1</strong><br>
+        Built basic predictive models and explored classification techniques in R.</li>
 
-<h2>Class 06: [Title TBD]</h2>
-<p class="highlight">Applied clustering methods and PCA for dimensionality reduction, identifying patterns in complex datasets.</p>
+        <li><strong>Class 08: Breast Cancer Analysis</strong><br>
+        Conducted differential expression analysis and visualized cancer gene datasets.</li>
 
-<h2>Class 07: Machine Learning 1</h2>
-<p class="highlight">Built basic predictive models and learned classification techniques, applying machine learning to biological data.</p>
+        <li><strong>Class 09: Structural Bioinformatics Part 1</strong><br>
+        Analyzed protein structures and explored sequence alignments using computational tools.</li>
 
-<h2>Class 08: Breast Cancer Analysis Mini-Project</h2>
-<p class="highlight">Performed differential expression analysis and visualized cancer gene datasets to interpret disease biology.</p>
+        <li><strong>Class 10: Halloween Mini Project</strong><br>
+        Applied previous skills in a creative mini-project integrating multiple datasets.</li>
 
-<h2>Class 09: Structural Bioinformatics Part 1</h2>
-<p class="highlight">Analyzed protein structures and explored sequence alignments to understand structural relationships.</p>
+        <li><strong>Class 11: Structural Bioinformatics Part 2</strong><br>
+        Extended structural analysis with visualization of protein complexes and AlphaFold predictions.</li>
 
-<h2>Class 10: Halloween Mini Project</h2>
-<p class="highlight">Applied prior skills in a creative mini-project integrating multiple datasets for analysis and visualization.</p>
+        <li><strong>Class 12: RNA-Seq Analysis</strong><br>
+        Performed RNA-Seq preprocessing, normalization, and PCA to analyze transcriptomic data.</li>
 
-<h2>Class 11: Structural Bioinformatics Part 2</h2>
-<p class="highlight">Extended structural analysis with visualization of protein complexes and explored functional motifs.</p>
-
-<h2>Class 12: RNA-Seq Analysis</h2>
-<p class="highlight">Performed RNA-Seq data preprocessing, normalization, and PCA to examine gene expression patterns.</p>
-
-<h2>Class 14: RNA-Seq Mini Project</h2>
-<p class="highlight">Conducted a mini-project on RNA-Seq analysis, including visualization, differential expression, and pathway annotation.</p>
-
+        <li><strong>Class 14: RNASeq Mini Project</strong><br>
+        Conducted a complete RNA-Seq project including differential expression analysis, visualization, and pathway annotation.</li>
+    </ul>
+</div>
 </body>
 </html>
 
-   
   
