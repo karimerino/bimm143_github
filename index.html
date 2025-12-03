@@ -5,55 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carolina's Bioinformatics Portfolio</title>
 <link rel="icon" href="https://fav.farm/🧬">
-
 <style>
     body {
         background-color: #121212;
         color: #e0e0e0;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: Courier, monospace;
         margin: 0;
         padding: 0;
     }
-
-    /* BIOINFORMATICS STRIP - KEEP EXACTLY AS BEFORE */
-    .bio-strip {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        background-color: #0f0f0f;
-        border-bottom: 2px solid #1e88e5;
-        padding: 20px 0;
-        margin-bottom: 40px;
-    }
-
-    .bio-strip span {
-        font-size: 32px;
-        margin: 0 6px;
-        display: inline-block;
-        transition: transform 0.3s ease, text-shadow 0.3s ease;
-        cursor: default;
-    }
-
-    .bio-strip span:hover {
-        transform: translateY(-8px) scale(1.15);
-        text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
-    }
-
     .container {
         max-width: 900px;
-        margin: 0 auto 40px auto;
+        margin: 40px auto;
         padding: 30px;
         border: 2px solid #1e88e5;
         border-radius: 10px;
         background-color: #1c1c1c;
         box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-
-    p {
+    h1 {
+        color: #1e88e5;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .welcome-text {
+        font-family: 'Trebuchet MS', sans-serif;
         line-height: 1.6;
         margin-bottom: 30px;
     }
-
     .class-link {
         display: block;
         margin-bottom: 10px;
@@ -62,56 +40,72 @@
         text-decoration: none;
         transition: color 0.3s;
     }
-
     .class-link:hover {
         color: #ffeb3b; /* yellow on hover */
     }
-
     .description {
         color: #a0a0a0;
         margin-left: 15px;
         margin-bottom: 15px;
     }
-
-    .github-link {
-        position: fixed;
-        top: 15px;
-        right: 20px;
+    .bottom-strip {
+        display: flex;
+        justify-content: center;
+        margin-top: 60px;
+        padding: 10px 0;
+        background-color: #0f0f0f;
+        border-top: 2px solid #1e88e5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .bottom-strip span {
+        font-size: 28px;
+        margin: 0 6px;
+        transition: transform 0.3s;
+        cursor: default;
+    }
+    .bottom-strip span:hover {
+        transform: translateY(-10px) rotate(-10deg);
+    }
+    .footer {
+        text-align: center;
+        margin: 40px 0 20px 0;
+        color: #64b5f6;
+        font-size: 14px;
+    }
+    .footer a {
         color: #64b5f6;
         text-decoration: none;
         font-weight: bold;
+        margin-left: 8px;
     }
-
-    .github-link:hover {
+    .footer a:hover {
         color: #ffeb3b;
     }
 </style>
 </head>
 <body>
 
-<!-- TOP BIOINFORMATICS STRIP -->
-<div class="bio-strip">
-    <span style="color:#81c784;">B</span>
-    <span style="color:#64b5f6;">I</span>
-    <span style="color:#ffeb3b;">O</span>
-    <span style="color:#f48fb1;">I</span>
-    <span style="color:#ce93d8;">N</span>
-    <span style="color:#4db6ac;">F</span>
-    <span style="color:#ba68c8;">O</span>
-    <span style="color:#e57373;">R</span>
-    <span style="color:#90caf9;">M</span>
-    <span style="color:#aed581;">A</span>
-    <span style="color:#fff176;">T</span>
-    <span style="color:#7986cb;">I</span>
-    <span style="color:#4dd0e1;">C</span>
-    <span style="color:#ffab91;">S</span>
-</div>
-<!-- END BIOINFORMATICS STRIP -->
-
-<a class="github-link" href="https://github.com/karimerino/bimm143_github" target="_blank">View My Repositories on GitHub</a>
-
 <div class="container">
-    <p>Welcome! This portfolio showcases my work from the Bioinformatics (Bimm 143) course at UC San Diego. Highlights include advanced analyses such as machine learning models, PCA for dimensionality reduction, RNA-Seq analysis, and protein structure prediction with AlphaFold.</p>
+    <div class="bottom-strip">
+        <span style="color:#81c784;">B</span>
+        <span style="color:#64b5f6;">I</span>
+        <span style="color:#ffeb3b;">O</span>
+        <span style="color:#f48fb1;">I</span>
+        <span style="color:#ce93d8;">N</span>
+        <span style="color:#4db6ac;">F</span>
+        <span style="color:#ba68c8;">O</span>
+        <span style="color:#e57373;">R</span>
+        <span style="color:#90caf9;">M</span>
+        <span style="color:#aed581;">A</span>
+        <span style="color:#fff176;">T</span>
+        <span style="color:#7986cb;">I</span>
+        <span style="color:#4dd0e1;">C</span>
+        <span style="color:#ffab91;">S</span>
+    </div>
+
+    <p class="welcome-text">
+        Welcome! This portfolio showcases my work from the Bioinformatics (Bimm 143) course at UC San Diego. Highlights include advanced analyses such as machine learning models, PCA for dimensionality reduction, RNA-Seq analysis, and protein structure prediction with AlphaFold.
+    </p>
 
     <a class="class-link" href="Class01/lab01_Merino_Carolina.pdf.pdf" target="_blank">Class 01: Introduction</a>
     <div class="description">Introduction to R and basic bioinformatics workflows.</div>
@@ -154,5 +148,11 @@
 
 </div>
 
+<div class="footer">
+    &copy; 2025 Carolina Merino
+    <a href="https://github.com/karimerino/bimm143_github" target="_blank">View My GitHub</a>
+</div>
+
 </body>
 </html>
+
