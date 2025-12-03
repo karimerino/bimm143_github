@@ -48,23 +48,22 @@
         margin-left: 15px;
         margin-bottom: 15px;
     }
-    .bottom-strip {
+    .top-strip {
         display: flex;
         justify-content: center;
-        margin-top: 60px;
-        padding: 10px 0;
+        padding: 20px 0;
         background-color: #0f0f0f;
-        border-top: 2px solid #1e88e5;
+        border-bottom: 2px solid #1e88e5;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 36px;
     }
-    .bottom-strip span {
-        font-size: 28px;
-        margin: 0 6px;
+    .top-strip span {
+        margin: 0 8px;
         transition: transform 0.3s;
         cursor: default;
     }
-    .bottom-strip span:hover {
-        transform: translateY(-10px) rotate(-10deg);
+    .top-strip span:hover {
+        transform: translateY(-12px) rotate(-10deg);
     }
     .footer {
         text-align: center;
@@ -85,23 +84,24 @@
 </head>
 <body>
 
+<div class="top-strip">
+    <span style="color:#81c784;">B</span>
+    <span style="color:#64b5f6;">I</span>
+    <span style="color:#ffeb3b;">O</span>
+    <span style="color:#f48fb1;">I</span>
+    <span style="color:#ce93d8;">N</span>
+    <span style="color:#4db6ac;">F</span>
+    <span style="color:#ba68c8;">O</span>
+    <span style="color:#e57373;">R</span>
+    <span style="color:#90caf9;">M</span>
+    <span style="color:#aed581;">A</span>
+    <span style="color:#fff176;">T</span>
+    <span style="color:#7986cb;">I</span>
+    <span style="color:#4dd0e1;">C</span>
+    <span style="color:#ffab91;">S</span>
+</div>
+
 <div class="container">
-    <div class="bottom-strip">
-        <span style="color:#81c784;">B</span>
-        <span style="color:#64b5f6;">I</span>
-        <span style="color:#ffeb3b;">O</span>
-        <span style="color:#f48fb1;">I</span>
-        <span style="color:#ce93d8;">N</span>
-        <span style="color:#4db6ac;">F</span>
-        <span style="color:#ba68c8;">O</span>
-        <span style="color:#e57373;">R</span>
-        <span style="color:#90caf9;">M</span>
-        <span style="color:#aed581;">A</span>
-        <span style="color:#fff176;">T</span>
-        <span style="color:#7986cb;">I</span>
-        <span style="color:#4dd0e1;">C</span>
-        <span style="color:#ffab91;">S</span>
-    </div>
 
     <p class="welcome-text">
         Welcome! This portfolio showcases my work from the Bioinformatics (Bimm 143) course at UC San Diego. Highlights include advanced analyses such as machine learning models, PCA for dimensionality reduction, RNA-Seq analysis, and protein structure prediction with AlphaFold.
@@ -155,4 +155,3 @@
 
 </body>
 </html>
-
