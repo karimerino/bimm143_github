@@ -25,6 +25,7 @@
       border-bottom: 3px solid #90caf9;
       padding-bottom: 10px;
       margin-top: 0;
+      text-align: center;
     }
     h2 {
       color: #ffffff;
@@ -37,46 +38,109 @@
       padding: 0;
     }
     li {
-      margin-bottom: 12px;
-      padding: 5px 0;
-      border-bottom: 1px dotted #333;
+      margin-bottom: 18px;
+      padding: 10px 12px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
     }
     a {
       text-decoration: none;
       color: #81d4fa;
       font-weight: bold;
+      display: block;
+      margin-bottom: 4px;
     }
     a:hover {
-      text-decoration: underline;
       color: #29b6f6;
+      background-color: #2a2a2a;
+      padding-left: 16px;
+    }
+    a:active {
+      color: #ffffff;
+      background-color: #444;
+    }
+    .desc {
+      font-size: 0.9em;
+      color: #c0c0c0;
+      margin-left: 10px;
     }
     p {
       line-height: 1.6;
+      text-align: center;
+    }
+    hr {
+      border-color: #333;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Carolina's BIMM143 Bioinformatics Portfolio</h1>
-    <p>Welcome to my portfolio showcasing my completed assignments and mini-projects for BIMM 143 at UC San Diego. All projects were completed using <strong>R</strong> for data analysis, bioinformatics pipelines, and visualization.</p>
+    <p>Welcome to my portfolio showcasing all my completed assignments and mini-projects for BIMM 143 at UC San Diego. All projects were completed using <strong>R</strong> for data analysis, visualization, and bioinformatics workflows.</p>
     
-    <h2>Class Assignments & Projects</h2>
+    <h2>Class Projects</h2>
     <ul>
-      <li><a href="Class 01/index.html">1. Class 01: Introduction</a></li>
-      <li><a href="Class 03/index.html">2. Class 03: Advanced Database Searching</a></li>
-      <li><a href="Class 4/index.html">3. Class 04: Data Visualization</a></li>
-      <li><a href="Class 05/index.html">4. Class 05: Data Analysis</a></li>
-      <li><a href="Class 07/index.html">5. Class 07: Machine Learning 1</a></li>
-      <li><a href="Class 08/index.html">6. Class 08: Breast Cancer Analysis Mini-Project</a></li>
-      <li><a href="Class 09/index.html">7. Class 09: Structural Bioinformatics Part 1</a></li>
-      <li><a href="Class 10/index.html">8. Class 10: Halloween Mini Project</a></li>
-      <li><a href="Class 11/index.html">9. Class 11: Structural Bioinformatics Part 2</a></li>
-      <li><a href="Class 12/index.html">10. Class 12: RNA-Seq Analysis</a></li>
-      <li><a href="Class 14/index.html">11. Class 14: RNASeq Mini Project</a></li>
+      <li>
+        <a href="Class01/lab01_Merino_Carolina.pdf.pdf" target="_blank">1. Class 01: Introduction</a>
+        <div class="desc">Introduction to R and basic bioinformatics workflows.</div>
+      </li>
+      <li>
+        <a href="class02/lab02_Merino.pdf" target="_blank">2. Class 02: [Title TBD]</a>
+        <div class="desc">Explored data manipulation and basic plotting in R.</div>
+      </li>
+      <li>
+        <a href="Class03/lab03Merino.pdf" target="_blank">3. Class 03: Advanced Database Searching</a>
+        <div class="desc">Used NCBI databases and advanced search techniques to retrieve sequence data.</div>
+      </li>
+      <li>
+        <a href="Class 4/lab_04_Merino.pdf" target="_blank">4. Class 04: Data Visualization</a>
+        <div class="desc">Created plots, boxplots, and exploratory visualizations using ggplot2 in R.</div>
+      </li>
+      <li>
+        <a href="Class05/class05.pdf" target="_blank">5. Class 05: Data Analysis</a>
+        <div class="desc">Performed statistical analyses including t-tests and ANOVA on biological datasets.</div>
+      </li>
+      <li>
+        <a href="Class_06/Class06.pdf" target="_blank">6. Class 06: [Title TBD]</a>
+        <div class="desc">Applied clustering methods and PCA for dimensionality reduction.</div>
+      </li>
+      <li>
+        <a href="Class 07/Class07.pdf" target="_blank">7. Class 07: Machine Learning 1</a>
+        <div class="desc">Built basic predictive models and learned classification techniques in R.</div>
+      </li>
+      <li>
+        <a href="Class 08/Class-8-Mini-Project.pdf" target="_blank">8. Class 08: Breast Cancer Analysis Mini-Project</a>
+        <div class="desc">Performed differential expression analysis and visualized cancer gene datasets.</div>
+      </li>
+      <li>
+        <a href="Class 09/Class_09.pdf" target="_blank">9. Class 09: Structural Bioinformatics Part 1</a>
+        <div class="desc">Analyzed protein structures and explored sequence alignments.</div>
+      </li>
+      <li>
+        <a href="Class 10/class10.pdf" target="_blank">10. Class 10: Halloween Mini Project</a>
+        <div class="desc">Applied previous skills in a fun mini-project integrating datasets.</div>
+      </li>
+      <li>
+        <a href="Class 11/Class11.pdf" target="_blank">11. Class 11: Structural Bioinformatics Part 2</a>
+        <div class="desc">Extended structural analysis with visualization of protein complexes.</div>
+      </li>
+      <li>
+        <a href="Class 12/class12.pdf" target="_blank">12. Class 12: RNA-Seq Analysis</a>
+        <div class="desc">Performed RNA-Seq data preprocessing, normalization, and PCA.</div>
+      </li>
+      <li>
+        <a href="Class 14/class-14.pdf" target="_blank">13. Class 14: RNASeq Mini Project</a>
+        <div class="desc">Conducted mini-project on RNA-Seq analysis including visualization and differential expression.</div>
+      </li>
     </ul>
 
     <hr>
-    <p style="text-align: center; font-size: 0.8em;">View the raw files on my <a href="https://github.com/karimerino/bimm143_github" target="_blank">GitHub Repository</a>.</p>
+    <p>View all raw files on my <a href="https://github.com/karimerino/bimm143_github" target="_blank">GitHub Repository</a>.</p>
   </div>
 </body>
 </html>
+
+   
+   
+  
