@@ -10,12 +10,12 @@
     body {
         background-color: #121212;
         color: #e0e0e0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Courier New', Courier, monospace;
         margin: 0;
         padding: 0;
     }
 
-    /* NEW: BIOINFORMATICS STRIP */
+    /* BIOINFORMATICS STRIP - KEEP EXACTLY AS BEFORE */
     .bio-strip {
         width: 100%;
         display: flex;
@@ -38,42 +38,41 @@
         transform: translateY(-8px) scale(1.15);
         text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
     }
-    /* END NEW */
 
     .container {
         max-width: 900px;
-        margin: 40px auto;
+        margin: 0 auto 40px auto;
         padding: 30px;
         border: 2px solid #1e88e5;
         border-radius: 10px;
         background-color: #1c1c1c;
         box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-    h1 {
-        color: #1e88e5;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+
     p {
         line-height: 1.6;
         margin-bottom: 30px;
     }
+
     .class-link {
         display: block;
         margin-bottom: 10px;
         font-size: 1.2em;
-        color: #81c784;
+        color: #81c784; /* soft green */
         text-decoration: none;
         transition: color 0.3s;
     }
+
     .class-link:hover {
-        color: #ffeb3b;
+        color: #ffeb3b; /* yellow on hover */
     }
+
     .description {
         color: #a0a0a0;
         margin-left: 15px;
         margin-bottom: 15px;
     }
+
     .github-link {
         position: fixed;
         top: 15px;
@@ -82,6 +81,7 @@
         text-decoration: none;
         font-weight: bold;
     }
+
     .github-link:hover {
         color: #ffeb3b;
     }
@@ -89,7 +89,7 @@
 </head>
 <body>
 
-<!-- NEW TOP BIOINFORMATICS STRIP -->
+<!-- TOP BIOINFORMATICS STRIP -->
 <div class="bio-strip">
     <span style="color:#81c784;">B</span>
     <span style="color:#64b5f6;">I</span>
@@ -106,12 +106,11 @@
     <span style="color:#4dd0e1;">C</span>
     <span style="color:#ffab91;">S</span>
 </div>
-<!-- END NEW STRIP -->
+<!-- END BIOINFORMATICS STRIP -->
 
 <a class="github-link" href="https://github.com/karimerino/bimm143_github" target="_blank">View My Repositories on GitHub</a>
 
 <div class="container">
-    <h1>Carolina's Bioinformatics Portfolio</h1>
     <p>Welcome! This portfolio showcases my work from the Bioinformatics (Bimm 143) course at UC San Diego. Highlights include advanced analyses such as machine learning models, PCA for dimensionality reduction, RNA-Seq analysis, and protein structure prediction with AlphaFold.</p>
 
     <a class="class-link" href="Class01/lab01_Merino_Carolina.pdf.pdf" target="_blank">Class 01: Introduction</a>
