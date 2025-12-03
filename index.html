@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carolina's Bioinformatics Portfolio</title>
 <style>
-    /* Dark theme background */
     body {
         background-color: #121212;
         color: #e0e0e0;
@@ -13,92 +12,87 @@
         margin: 0;
         padding: 0;
     }
-    /* Centered container with border */
     .container {
         max-width: 900px;
         margin: 40px auto;
         padding: 30px;
-        border: 2px solid #1e88e5; /* nice blue border */
+        border: 2px solid #1e88e5;
         border-radius: 10px;
         background-color: #1c1c1c;
         box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
     h1 {
-        color: #1e88e5; /* blue */
+        color: #1e88e5;
         text-align: center;
-        margin-bottom: 10px;
-    }
-    h2 {
-        color: #66bb6a; /* soft green */
-        margin-top: 25px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
     p {
         line-height: 1.6;
+        margin-bottom: 30px;
     }
-    a {
+    .class-link {
+        display: block;
+        margin-bottom: 20px;
+        font-size: 1.1em;
         color: #64b5f6;
         text-decoration: none;
+        transition: color 0.3s;
     }
-    a:hover {
-        text-decoration: underline;
+    .class-link:hover {
+        color: #81c784; /* soft green on hover */
     }
-    ul {
-        padding-left: 20px;
-    }
-    li {
-        margin-bottom: 15px;
+    .description {
+        color: #a0a0a0;
+        margin-left: 15px;
+        margin-bottom: 10px;
     }
 </style>
 </head>
 <body>
 <div class="container">
     <h1>Carolina's Bioinformatics Portfolio</h1>
-    <p>Welcome! This portfolio showcases my work from the Bioinformatics (BIMM 143) course at UC San Diego. Each project highlights key computational methods, biological insights, and data visualization skills I developed.</p>
+    <p>Welcome! This portfolio showcases my work from the Bioinformatics (Bimm 143) course at UC San Diego. Each project highlights key computational methods, dvanced computational analyses, including machine learning models, PCA for dimensionality reduction, RNA-Seq analysis, and protein structure prediction with AlphaFold.</p>
 
-    <h2>Class Projects</h2>
-    <ul>
-        <li><strong>Class 01: Introduction</strong><br>
-        Introduction to R and basic bioinformatics workflows.</li>
+    <!-- Class projects -->
+    <a class="class-link" href="class01/lab01_Merino.pdf" target="_blank">Class 01: Introduction</a>
+    <div class="description">Introduction to R and basic bioinformatics workflows.</div>
 
-        <li><strong>Class 02: Data Manipulation and Plotting</strong><br>
-        Explored data manipulation and created basic plots in R to visualize biological datasets. <a href="class2/lab02_Merino.pdf" target="_blank">View PDF</a></li>
+    <a class="class-link" href="class02/lab02_Merino.pdf" target="_blank">Class 02: Data Manipulation and Plotting</a>
+    <div class="description">Explored data manipulation and created basic plots in R to visualize biological datasets.</div>
 
-        <li><strong>Class 03: Advanced Database Searching</strong><br>
-        Used NCBI databases and advanced search techniques to retrieve sequence data.</li>
+    <a class="class-link" href="class03/lab03_Merino.pdf" target="_blank">Class 03: Advanced Database Searching</a>
+    <div class="description">Used NCBI databases and advanced search techniques to retrieve sequence data.</div>
 
-        <li><strong>Class 04: Data Visualization</strong><br>
-        Created plots, boxplots, and exploratory visualizations using ggplot2 in R.</li>
+    <a class="class-link" href="class04/lab04_Merino.pdf" target="_blank">Class 04: Data Visualization</a>
+    <div class="description">Created plots, boxplots, and exploratory visualizations using ggplot2 in R.</div>
 
-        <li><strong>Class 05: Data Analysis</strong><br>
-        Performed statistical analyses including t-tests and ANOVA on biological datasets.</li>
+    <a class="class-link" href="class05/lab05_Merino.pdf" target="_blank">Class 05: Data Analysis</a>
+    <div class="description">Performed statistical analyses including t-tests and ANOVA on biological datasets.</div>
 
-        <li><strong>Class 06: Clustering & PCA</strong><br>
-        Applied clustering methods and PCA for dimensionality reduction to reveal patterns in complex datasets.</li>
+    <a class="class-link" href="class06/lab06_Merino.pdf" target="_blank">Class 06: Clustering & PCA</a>
+    <div class="description">Applied clustering methods and PCA for dimensionality reduction to reveal patterns in complex datasets.</div>
 
-        <li><strong>Class 07: Machine Learning 1</strong><br>
-        Built basic predictive models and explored classification techniques in R.</li>
+    <a class="class-link" href="class07/lab07_Merino.pdf" target="_blank">Class 07: Machine Learning 1</a>
+    <div class="description">Built basic predictive models and explored classification techniques in R.</div>
 
-        <li><strong>Class 08: Breast Cancer Analysis</strong><br>
-        Conducted differential expression analysis and visualized cancer gene datasets.</li>
+    <a class="class-link" href="class08/lab08_Merino.pdf" target="_blank">Class 08: Breast Cancer Analysis</a>
+    <div class="description">Conducted differential expression analysis and visualized cancer gene datasets.</div>
 
-        <li><strong>Class 09: Structural Bioinformatics Part 1</strong><br>
-        Analyzed protein structures and explored sequence alignments using computational tools.</li>
+    <a class="class-link" href="class09/lab09_Merino.pdf" target="_blank">Class 09: Structural Bioinformatics Part 1</a>
+    <div class="description">Analyzed protein structures and explored sequence alignments using computational tools.</div>
 
-        <li><strong>Class 10: Halloween Mini Project</strong><br>
-        Applied previous skills in a creative mini-project integrating multiple datasets.</li>
+    <a class="class-link" href="class10/lab10_Merino.pdf" target="_blank">Class 10: Halloween Mini Project</a>
+    <div class="description">Applied previous skills in a creative mini-project integrating multiple datasets.</div>
 
-        <li><strong>Class 11: Structural Bioinformatics Part 2</strong><br>
-        Extended structural analysis with visualization of protein complexes and AlphaFold predictions.</li>
+    <a class="class-link" href="class11/lab11_Merino.pdf" target="_blank">Class 11: Structural Bioinformatics Part 2</a>
+    <div class="description">Extended structural analysis with visualization of protein complexes and AlphaFold predictions.</div>
 
-        <li><strong>Class 12: RNA-Seq Analysis</strong><br>
-        Performed RNA-Seq preprocessing, normalization, and PCA to analyze transcriptomic data.</li>
+    <a class="class-link" href="class12/lab12_Merino.pdf" target="_blank">Class 12: RNA-Seq Analysis</a>
+    <div class="description">Performed RNA-Seq preprocessing, normalization, and PCA to analyze transcriptomic data.</div>
 
-        <li><strong>Class 14: RNASeq Mini Project</strong><br>
-        Conducted a complete RNA-Seq project including differential expression analysis, visualization, and pathway annotation.</li>
-    </ul>
+    <a class="class-link" href="class14/lab14_Merino.pdf" target="_blank">Class 14: RNASeq Mini Project</a>
+    <div class="description">Conducted a complete RNA-Seq project including differential expression analysis, visualization, and pathway annotation.</div>
 </div>
 </body>
 </html>
 
-  
